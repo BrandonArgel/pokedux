@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { Layout as AntLayout, Space } from "antd";
 import { ConfigProvider } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -7,22 +6,25 @@ import { actionCreators, State } from "@state";
 import { Header, Footer } from "@components";
 import styles from "./Layout.module.scss";
 
-const { Header: AntHeader, Footer: AntFooter, Content } = AntLayout;
 const darkTheme = {
-	colorBgBase: "black",
-	colorPrimaryBg: "black",
-	colorBgContainer: "black",
-	colorPrimary: "red",
-	colorTextBase: "white",
-	colorTextLightSolid: "white",
+	token: {
+		colorBgBase: "#38304c",
+		colorBgContainer: "#201a30",
+		colorPrimary: "#0df5e3",
+		colorText: "#ebebeb",
+		colorTextBase: "#696574",
+		colorTextLightSolid: "white",
+	},
 };
 const lightTheme = {
-	colorBgBase: "white",
-	colorBgContainer: "white",
-	colorPrimaryBg: "white",
-	colorPrimary: "blue",
-	colorTextBase: "black",
-	colorTextLightSolid: "black",
+	token: {
+		colorBgBase: "white",
+		colorBgContainer: "#f5f5f5",
+		colorPrimary: "blue",
+		colorText: "black",
+		colorTextBase: "black",
+		colorTextLightSolid: "black",
+	},
 };
 
 export const Layout = () => {
@@ -30,26 +32,26 @@ export const Layout = () => {
 	const { isDarkMode } = useSelector((state: State) => state.theme);
 	const { toggleTheme } = bindActionCreators(actionCreators, dispatch);
 
-	const theme = isDarkMode ? darkTheme : lightTheme;
-
+	const currentTheme = isDarkMode ? darkTheme : lightTheme;
 
 	return (
-		<ConfigProvider theme={{
-			token: theme,
-		}}>
-			<Space direction="vertical" className={styles.root}>
-				<AntLayout>
-					<AntHeader>
-						<Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-					</AntHeader>
-					<Content>
-						<Outlet />
-					</Content>
-					<AntFooter>
-						<Footer />
-					</AntFooter>
-				</AntLayout>
-			</Space>
+		<ConfigProvider theme={currentTheme}>
+			<div
+				className={styles.root}
+				style={{
+					backgroundColor: currentTheme.token.colorBgContainer,
+				}}
+			>
+				<Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+				<main
+					style={{
+						color: currentTheme.token.colorText,
+					}}
+				>
+					<Outlet />
+				</main>
+				<Footer />
+			</div>
 		</ConfigProvider>
 	);
 };

@@ -1,0 +1,14 @@
+.root {
+  margin-top: auto;
+}
+
+.social {
+  
+
+  &__link svg {
+    border-radius: 50%;
+    fill: inherit;
+    height: 3rem;
+    width: 3rem;
+  }
+}

@@ -1,14 +1,15 @@
 import { ActionTypePokemon, ActionTypeTheme } from "@state/action-types";
+import { PokemonModel } from "@models";
 
-// ToDo: create model of pokemon
+
 interface SetPokemonsAction {
   type: ActionTypePokemon.SET_POKEMONS
-  payload: any
+  payload: Array<PokemonModel>
 }
 
 interface SetPokemonAction {
   type: ActionTypePokemon.SET_POKEMON
-  payload: any
+  payload: PokemonModel
 }
 
 interface SetSearchAction {

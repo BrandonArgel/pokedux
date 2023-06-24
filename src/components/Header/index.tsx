@@ -1,18 +1,55 @@
-import { Button } from "antd";
+import { ConfigProvider } from "antd";
+import { Button, theme, Typography } from "antd";
 import { Moon, Sun } from "@assets/icons";
+import styles from "./Header.module.scss";
 
 interface Props {
 	isDarkMode: boolean;
 	toggleTheme: () => void;
 }
 
+const { useToken } = theme;
+const { Title } = Typography;
+
 export const Header: React.FC<Props> = ({ isDarkMode, toggleTheme }) => {
+	const { token } = useToken();
+
 	return (
-		<div>
-			<h1>Pokedux</h1>
-			<Button type="primary" onClick={() => toggleTheme()}>
-				{isDarkMode ? <Sun /> : <Moon />}
-			</Button>
-		</div>
+		<ConfigProvider
+			theme={{
+				token: {
+					colorPrimary: token.colorBgBase,
+				},
+			}}
+		>
+			<header
+				className={styles.header}
+				style={{
+					backgroundColor: token.colorBgBase,
+				}}
+			>
+				<div className={styles.header__container}>
+					<Title
+						style={{
+							color: token.colorPrimary,
+							marginBottom: 0,
+						}}
+					>
+						Pokedux
+					</Title>
+					<Button
+						className={styles.header__button}
+						onClick={() => toggleTheme()}
+						style={{
+							border: `2px solid ${token.colorText}`,
+							fill: token.colorText,
+						}}
+						title="Toggle theme"
+					>
+						{isDarkMode ? <Sun color="#FFFF00" /> : <Moon color="#000000" />}
+					</Button>
+				</div>
+			</header>
+		</ConfigProvider>
 	);
 };
