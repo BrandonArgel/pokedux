@@ -5,37 +5,37 @@ import styles from "./Footer.module.scss";
 const social = [
 	{
 		link: "https://github.com/BrandonArgel",
-		icon: <GitHub />,
+		icon: (color: string) => <GitHub color={color} />,
 		title: "Brandon Argel's GitHub",
 	},
 	{
 		link: "https://www.instagram.com/brandargel/",
-		icon: <Instagram />,
+		icon: (color: string) => <Instagram color={color} />,
 		title: "Brandon Argel's Instagram",
 	},
 	{
 		link: "https://www.linkedin.com/in/brandargel/",
-		icon: <LinkedIn />,
+		icon: (color: string) => <LinkedIn color={color} />,
 		title: "Brandon Argel's LinkedIn",
 	},
 	{
 		link: "https://twitter.com/BrandArgel",
-		icon: <Twitter />,
+		icon: (color: string) => <Twitter color={color} />,
 		title: "Brandon Argel's Twitter",
 	},
 	{
 		link: "mailto:brandargel@gmail.com",
-		icon: <Mail />,
+		icon: (color: string) => <Mail color={color} />,
 		title: "Brandon Argel's Email",
 	},
 	{
 		link: "https://platzi.com/p/BrandArgel/",
-		icon: <Platzi />,
+		icon: (color: string) => <Platzi color={color} />,
 		title: "Brandon Argel's Platzi Profile",
 	},
 	{
 		link: "https://brandonargel.me",
-		icon: <Portfolio />,
+		icon: (color: string) => <Portfolio color={color} />,
 		title: "Brandon Argel's Portfolio",
 	},
 ];
@@ -59,10 +59,9 @@ export const Footer = () => {
 						title={title}
 						style={{
 							backgroundColor: token.colorBgBase,
-							fill: token.colorText,
 						}}
 					>
-						{icon}
+						{icon(token.colorPrimary)}
 					</a>
 				))}
 			</div>

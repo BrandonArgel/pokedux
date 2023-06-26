@@ -8,7 +8,7 @@ export const getPokemonsService = async () => {
 
   const pokemons = await Promise.all(
     pokemonList.results.map(async (pokemon: PokemonBaseModel) => {
-      const { id, sprites, types, stats, abilities, moves, weight, height, base_experience } = await fetch(pokemon.url)
+      const { id, sprites, types, stats, abilities, moves, weight, height } = await fetch(pokemon.url)
         .then((response) => response.json())
 
       return {
@@ -23,7 +23,6 @@ export const getPokemonsService = async () => {
         moves: moves.map((move: any) => move.move.name),
         weight: weight,
         height: height,
-        base_experience: base_experience,
         ...pokemon
       }
     })

@@ -9,6 +9,7 @@ const paths = [
   "components",
   "containers",
   "context",
+  "fonts",
   "hooks",
   "middleware",
   "models",

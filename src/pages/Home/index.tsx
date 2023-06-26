@@ -1,11 +1,14 @@
-import { actionCreators } from "@state";
+import { actionCreators, State } from "@state";
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import { PokemonList } from "@containers";
+import { Card } from "@components";
+import { PokemonModel } from "@models";
 
 export const Home = () => {
-	const { pokemons, loading } = useSelector((state: any) => state.pokemons);
 	const dispatch = useDispatch();
+	const { pokemons, loading } = useSelector((state: State) => state.pokemons);
 	const { getPokemons } = bindActionCreators(actionCreators, dispatch);
 
 	React.useEffect(() => {
@@ -14,14 +17,13 @@ export const Home = () => {
 
 	return (
 		<div>
-			<h2>hello world</h2>
 			{loading && <h2>Loading...</h2>}
-			{pokemons.map((pokemon: any) => (
-				<div key={pokemon.name}>
-					<div key={pokemon.name}>{pokemon.name}</div>
-					<img src={pokemon.image} alt={pokemon.name} />
-				</div>
-			))}
+			<PokemonList>
+				{pokemons.length &&
+					pokemons.map((pokemon: PokemonModel) => (
+						<Card key={pokemon.name} name={pokemon.name} image={pokemon.image} />
+					))}
+			</PokemonList>
 		</div>
 	);
 };

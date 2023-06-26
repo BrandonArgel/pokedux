@@ -43,6 +43,9 @@
       "context/*": [
         "./src/context/*"
       ],
+      "fonts/*": [
+        "./src/fonts/*"
+      ],
       "hooks/*": [
         "./src/hooks/*"
       ],

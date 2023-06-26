@@ -8,7 +8,11 @@ const toggleLocalStorageTheme = (isDarkMode: boolean) => {
 const isDarkModeSO = window.matchMedia('(prefers-color-scheme: dark)').matches
 const isDarkModeLS = JSON.parse(localStorage.getItem('isDarkMode') ?? 'true')
 
-const initialState = {
+type ThemeState = {
+  isDarkMode: boolean,
+}
+
+const initialState: ThemeState = {
   isDarkMode: isDarkModeLS ?? isDarkModeSO,
 }
 

@@ -1,7 +1,16 @@
 import { ActionTypePokemon } from "@state/action-types"
 import { Action } from "@state/actions"
+import { PokemonModel } from "@models"
 
-const initialState = {
+type PokemonState = {
+  pokemons: Array<PokemonModel>,
+  pokemon: PokemonModel | null,
+  loading: boolean,
+  error: string | null,
+  search: string,
+}
+
+const initialState: PokemonState = {
   pokemons: [],
   pokemon: null,
   loading: false,

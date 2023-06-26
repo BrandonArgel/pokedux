@@ -22,6 +22,11 @@ export const getPokemons = () => {
         type: ActionTypePokemon.SET_ERROR,
         payload: error,
       });
+    } finally {
+      dispatch({
+        type: ActionTypePokemon.SET_LOADING,
+        payload: false,
+      });
     }
   };
 };
