@@ -1,4 +1,8 @@
 .card {
+  [class="ant-card-body"] {
+    padding: 0;
+  }
+
   &__image {
     width: 100% !important;
     height: auto !important;
@@ -9,9 +13,41 @@
       max-height: 100%;
       object-fit: cover;
     }
+  }
 
-    [class~="ant-image-mask"] {
-      border-radius: 1rem;
+  &__body {
+    padding: 1rem;
+  }
+}
+
+.skeleton {
+  [class="ant-card-body"] {
+    padding: 0;
+  }
+  
+  &__image {
+    height: auto;
+    width: 100% !important;
+
+    [class="ant-skeleton-image"] {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+
+  &__body {
+    padding: 1rem;
+
+  }
+  &__title {
+    margin: 0 auto;
+  }
+
+  &__text {
+    width: 100%;
+
+    div {
+      width: 100%;
     }
   }
 }

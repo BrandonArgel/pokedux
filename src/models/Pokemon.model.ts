@@ -1,11 +1,17 @@
-export interface PokemonBaseModel {
-  name: string;
-  url: string;
-}
-
 interface PokemonStatsModel {
   name: string;
   value: number;
+}
+
+export type PokemonInfoModel = {
+  count: number,
+  next: string | null,
+  previous: string | null,
+}
+
+export interface PokemonBaseModel {
+  name: string;
+  url: string;
 }
 
 export interface PokemonResponseModel {

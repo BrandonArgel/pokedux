@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { Action } from "@state/actions";
 import { PokemonModel } from "@models";
 
-export const getPokemons = () => {
+export const getPokemons = (page: number) => {
   return async (dispatch: Dispatch<Action>) => {
     dispatch({
       type: ActionTypePokemon.SET_LOADING,
@@ -12,10 +12,14 @@ export const getPokemons = () => {
     })
 
     try {
-      const pokemons = await getPokemonsService();
+      const { info, pokemons } = await getPokemonsService(page);
       dispatch({
         type: ActionTypePokemon.SET_POKEMONS,
         payload: pokemons,
+      });
+      dispatch({
+        type: ActionTypePokemon.SET_INFO,
+        payload: info,
       });
     } catch (error) {
       dispatch({
@@ -69,6 +73,15 @@ export const setPokemon = (pokemon: PokemonModel) => {
     dispatch({
       type: ActionTypePokemon.SET_POKEMON,
       payload: pokemon,
+    });
+  };
+};
+
+export const setPage = (page: number) => {
+  return (dispatch: Dispatch<Action>) => {
+    dispatch({
+      type: ActionTypePokemon.SET_PAGE,
+      payload: page,
     });
   };
 };

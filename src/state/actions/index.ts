@@ -1,5 +1,5 @@
 import { ActionTypePokemon, ActionTypeTheme } from "@state/action-types";
-import { PokemonModel } from "@models";
+import { PokemonInfoModel, PokemonModel } from "@models";
 
 
 interface SetPokemonsAction {
@@ -10,6 +10,16 @@ interface SetPokemonsAction {
 interface SetPokemonAction {
   type: ActionTypePokemon.SET_POKEMON
   payload: PokemonModel
+}
+
+interface SetInfoAction {
+  type: ActionTypePokemon.SET_INFO
+  payload: PokemonInfoModel
+}
+
+interface SetPageAction {
+  type: ActionTypePokemon.SET_PAGE
+  payload: number
 }
 
 interface SetSearchAction {
@@ -31,4 +41,4 @@ interface ToggleThemeAction {
   type: ActionTypeTheme.TOGGLE_THEME
 }
 
-export type Action = SetPokemonsAction | SetPokemonAction | SetSearchAction | SetLoadingAction | SetErrorAction | ToggleThemeAction;
+export type Action = SetPokemonsAction | SetPokemonAction | SetInfoAction | SetPageAction | SetSearchAction | SetLoadingAction | SetErrorAction | ToggleThemeAction;

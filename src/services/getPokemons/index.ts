@@ -2,12 +2,12 @@ import { PokemonBaseModel } from "@models";
 import { URL_API_BASE } from "@utils";
 import pokemonNotFound from '@assets/images/pokemonNotFound.png';
 
-export const getPokemonsService = async () => {
-  const pokemonList = await fetch(URL_API_BASE)
+export const getPokemonsService = async (page: number) => {
+  const { count, next, results, previous } = await fetch(`${URL_API_BASE}?limit=20&offset=${(page - 1) * 20}`)
     .then((response) => response.json())
 
   const pokemons = await Promise.all(
-    pokemonList.results.map(async (pokemon: PokemonBaseModel) => {
+    results.map(async (pokemon: PokemonBaseModel) => {
       const { id, sprites, types, stats, abilities, moves, weight, height } = await fetch(pokemon.url)
         .then((response) => response.json())
 
@@ -28,5 +28,11 @@ export const getPokemonsService = async () => {
     })
   )
 
-  return pokemons;
+  const info = {
+    count,
+    next,
+    previous
+  }
+
+  return { info, pokemons }
 }
