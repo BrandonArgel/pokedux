@@ -1,3 +1,3 @@
 export const Pokemon = () => {
-	return <div>pokemon</div>;
+	return <div>To Do: pokemon page</div>;
 };

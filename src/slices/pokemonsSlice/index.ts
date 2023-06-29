@@ -1,12 +1,10 @@
 import { PokemonInfoModel, PokemonModel } from '@models';
-import { PokemonResponseModel } from '@models/Pokemon.model';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getPokemonsService } from '@services';
 
 export interface DataState {
   pokemons: Array<PokemonModel>;
   favorites: Array<PokemonModel>;
-  pokemon: PokemonResponseModel | null;
   info: PokemonInfoModel | null;
   page: number;
   loading: boolean;
@@ -28,19 +26,23 @@ const favoriteLS = JSON.parse(localStorage.getItem('favorite') ?? '[]');
 const initialState: DataState = {
   pokemons: [],
   favorites: favoriteLS,
-  pokemon: null,
   info: null,
   page: pageLS,
   loading: true,
   error: null,
 }
 
-export const fetchPokemons = createAsyncThunk(
+export const fetchPokemons = createAsyncThunk<
+  // Return type of the payload creator
+  void,
+  // First argument to the payload creator
+  number
+>(
   'data/fetchPokemons',
-  async (_, { dispatch }) => {
+  async (page, { dispatch }) => {
     dispatch(setLoading(true));
     try {
-      const { info, pokemons } = await getPokemonsService(1);
+      const { info, pokemons } = await getPokemonsService(page);
       dispatch(setPokemons(pokemons));
       dispatch(setInfo(info));
     } catch (error) {
@@ -81,9 +83,6 @@ const dataSlice = createSlice({
         state.favorites = favorite;
       }
     },
-    setPokemon: (state, action: PayloadAction<PokemonResponseModel>) => {
-      state.pokemon = action.payload;
-    },
     setInfo: (state, action: PayloadAction<PokemonInfoModel>) => {
       state.info = action.payload;
     },
@@ -103,7 +102,6 @@ const dataSlice = createSlice({
 export const {
   setPokemons,
   setFavorite,
-  setPokemon,
   setInfo,
   setPage,
   setLoading,

@@ -46,24 +46,73 @@ export const Footer = () => {
 	const { token } = useToken();
 
 	return (
-		<footer className={styles.root}>
-			<div></div>
-			<div className={styles.social}>
-				{social.map(({ icon, link, title }) => (
-					<a
-						key={title}
-						className={styles.social__link}
-						href={link}
-						target="_blank"
-						rel="noopener noreferrer"
-						title={title}
+		<footer className={styles.footer}>
+			<div className={styles.footer__container}>
+				<div className={styles.footer__info}>
+					<p
 						style={{
-							backgroundColor: token.colorBgBase,
+							color: token.colorText,
 						}}
 					>
-						{icon(token.colorPrimary)}
-					</a>
-				))}
+						Project created with the{" "}
+						<a
+							target="_blank"
+							rel="noopener noreferrer"
+							href={"https://pokeapi.co/"}
+							style={{
+								color: token.colorPrimary,
+								textDecoration: "none",
+							}}
+						>
+							PokeAPI
+						</a>{" "}
+						and{" "}
+						<a
+							target="_blank"
+							rel="noopener noreferrer"
+							href="https://platzi.com/"
+							style={{
+								color: token.colorPrimary,
+								textDecoration: "none",
+							}}
+						>
+							Platzi
+						</a>
+					</p>
+					<p
+						style={{
+							color: token.colorText,
+						}}
+					>
+						Made by{" "}
+						<a
+							style={{
+								color: token.colorPrimary,
+								textDecoration: "none",
+							}}
+							target="_blank"
+							rel="noopener noreferrer"
+							href="https://brandonargel.me/"
+						>
+							Brandon Argel
+						</a>
+						. 🧑‍💻
+					</p>
+				</div>
+				<div className={styles.footer__social}>
+					{social.map(({ icon, link, title }) => (
+						<a
+							key={title}
+							className={styles.footer__link}
+							href={link}
+							target="_blank"
+							rel="noopener noreferrer"
+							title={title}
+						>
+							{icon(token.colorPrimary)}
+						</a>
+					))}
+				</div>
 			</div>
 		</footer>
 	);

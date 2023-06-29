@@ -1,9 +1,30 @@
-.root {
+.footer {
   margin-top: auto;
-}
+  width: 100%;
 
-.social {
-  
+  &__container {
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    justify-content: space-around;
+    padding: 2rem;
+    max-width: 800rem;
+    width: 100%;
+  }
+
+  &__info {
+    text-align: center;
+    width: 30rem,
+  }
+
+  &__social {
+    display: flex;
+    gap: 1rem;
+    width: 30rem;
+    justify-content: center;
+
+  }
 
   &__link svg {
     border-radius: 50%;

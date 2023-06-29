@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { ConfigProvider } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators, State } from "@state";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "@slices/uiSlice";
+import { RootState } from "@slices";
 import { Header, Footer } from "@components";
 import styles from "./Layout.module.scss";
 
@@ -20,7 +20,7 @@ const lightTheme = {
 	token: {
 		colorBgBase: "white",
 		colorBgContainer: "#f5f5f5",
-		colorPrimary: "blue",
+		colorPrimary: "rebeccapurple",
 		colorText: "black",
 		colorTextBase: "black",
 		colorTextLightSolid: "black",
@@ -29,10 +29,12 @@ const lightTheme = {
 
 export const Layout = () => {
 	const dispatch = useDispatch();
-	const { isDarkMode } = useSelector((state: State) => state.theme);
-	const { toggleTheme } = bindActionCreators(actionCreators, dispatch);
-
+	const { isDarkMode } = useSelector((state: RootState) => state.ui, shallowEqual);
 	const currentTheme = isDarkMode ? darkTheme : lightTheme;
+
+	const handleToggleTheme = () => {
+		dispatch(toggleTheme());
+	};
 
 	return (
 		<ConfigProvider theme={currentTheme}>
@@ -42,7 +44,7 @@ export const Layout = () => {
 					backgroundColor: currentTheme.token.colorBgContainer,
 				}}
 			>
-				<Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+				<Header isDarkMode={isDarkMode} toggleTheme={handleToggleTheme} />
 				<main
 					style={{
 						color: currentTheme.token.colorText,

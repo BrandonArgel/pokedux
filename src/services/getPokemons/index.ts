@@ -15,6 +15,7 @@ export const getPokemonsService = async (page: number) => {
         id: id,
         image: sprites.other['official-artwork'].front_default ?? sprites.other.home.front_default ?? sprites.front_shiny ?? sprites.front_default ?? pokemonNotFound,
         types: types.map((type: any) => type.type.name),
+        name: pokemon.name,
         isFavorite: false,
       }
     })

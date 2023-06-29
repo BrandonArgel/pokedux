@@ -1,30 +1,32 @@
 import * as React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actionCreators, State } from "@state";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, fetchPokemons } from "@slices";
+import { setFavorite, setPage } from "@slices/pokemonsSlice";
 import { PokemonList } from "@containers";
 import { Card, Pagination } from "@components";
 import { PokemonModel } from "@models";
 import { scrollTop } from "@utils";
 
 export const Home = () => {
-	const dispatch = useDispatch();
-	const { info, loading, page, pokemons } = useSelector((state: State) => state.pokemons);
-	const { setFavorite, getPokemons, setPage } = bindActionCreators(actionCreators, dispatch);
+	const dispatch = useDispatch<AppDispatch>();
+	const { info, loading, page, pokemons } = useSelector(
+		(state: RootState) => state.data,
+		shallowEqual
+	);
 
 	const handlePageChange = (page: number) => {
-		setPage(page);
+		dispatch(setPage(page));
 		scrollTop();
 	};
 
 	const handleFavorite = (e: React.MouseEvent<HTMLElement, MouseEvent>, pokemon: PokemonModel) => {
 		e.preventDefault();
 		e.stopPropagation();
-		setFavorite(pokemon);
+		dispatch(setFavorite(pokemon));
 	};
 
 	React.useEffect(() => {
-		getPokemons(page);
+		dispatch(fetchPokemons(page));
 	}, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
