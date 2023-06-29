@@ -7,3 +7,5 @@ A simple Pokedex app built with React and Redux using the [PokeAPI](https://poke
 - Add suspense loader for React.
 - Improve styling.
 - Improve skeleton loading (could add a transparent image as placeholder).
+- Update favorites when immediately clicking the favorite button (it is not refreshing).
+- Add favorites page or view.
