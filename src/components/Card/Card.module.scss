@@ -1,16 +1,58 @@
 .card {
+  border: 1px solid transparent;
+  transition: all 0.1s ease-in-out;
+  user-select: none;
+
+  &:hover {
+    border-color: currentColor;
+
+    .card__bg {
+      border-color: currentColor;
+    }
+
+    .card__badges p {
+      border-color: currentColor;
+    }
+  }
+
   [class="ant-card-body"] {
     padding: 0;
   }
 
+  &__container {
+    position: relative;
+  }
+
+  &__button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: 0.5rem;
+  }
+
+  &__bg {
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transform: scale(0.80) translate(-62%, -50%);
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+  }
+
   &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100% !important;
     height: auto !important;
 
     img {
       height: auto !important;
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 80%;
+      max-height: 80%;
       object-fit: cover;
     }
   }
@@ -18,36 +60,23 @@
   &__body {
     padding: 1rem;
   }
-}
 
-.skeleton {
-  [class="ant-card-body"] {
-    padding: 0;
-  }
-  
-  &__image {
-    height: auto;
-    width: 100% !important;
-
-    [class="ant-skeleton-image"] {
-      width: 100% !important;
-      height: auto !important;
-    }
-  }
-
-  &__body {
-    padding: 1rem;
-
-  }
-  &__title {
-    margin: 0 auto;
-  }
-
-  &__text {
+  &__content {
     width: 100%;
+  }
 
-    div {
-      width: 100%;
-    }
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-align: center;
+  }
+
+
+  &__badges {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
   }
 }

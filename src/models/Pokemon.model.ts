@@ -1,8 +1,3 @@
-interface PokemonStatsModel {
-  name: string;
-  value: number;
-}
-
 export type PokemonInfoModel = {
   count: number,
   next: string | null,
@@ -14,6 +9,7 @@ export interface PokemonBaseModel {
   url: string;
 }
 
+// TODO: add the correct types
 export interface PokemonResponseModel {
   id: number;
   image: string;
@@ -34,10 +30,6 @@ export interface PokemonModel {
   image: string;
   name: string;
   types: Array<string>;
-  stats: Array<PokemonStatsModel>;
-  abilities: Array<string>;
-  moves: Array<string>;
-  weight: number;
-  height: number;
+  isFavorite: boolean;
 }
 

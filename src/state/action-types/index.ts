@@ -1,5 +1,6 @@
 export enum ActionTypePokemon {
   SET_POKEMONS = 'SET_POKEMONS',
+  SET_FAVORITE = 'SET_FAVORITE',
   SET_POKEMON = 'SET_POKEMON',
   SET_INFO = 'SET_INFO',
   SET_PAGE = 'SET_PAGE',

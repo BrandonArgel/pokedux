@@ -1,8 +1,69 @@
 .list {
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 1.5rem;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   margin: 0 auto;
   max-width: 120rem;
   padding: 2rem;
+}
+
+.loading {
+  cursor: progress;
+
+  &>div {
+    pointer-events: none;
+
+    &>div {
+      animation: bg-skeleton 1.5s infinite;
+      background:
+        linear-gradient(0.25turn, transparent, rgba(gray, 0.2), transparent),
+        linear-gradient(rgba(gray, 0.1), rgba(gray, 0.1));
+      background-repeat: no-repeat;
+      background-size: 40rem 100%, 100% 100%;
+      background-position: -40rem 0, 0 0;
+      position: relative;
+    }
+
+    &:nth-child(4n) {
+      filter: hue-rotate(90deg);
+    }
+
+    &:nth-child(4n-1) {
+      filter: hue-rotate(180deg);
+    }
+
+    &:nth-child(4n-2) {
+      filter: hue-rotate(270deg);
+    }
+
+    &:nth-child(4n-3) {
+      filter: hue-rotate(270deg);
+    }
+
+    img {
+      opacity: 0;
+    }
+
+    h3,
+    p {
+      position: relative;
+
+      &::after {
+        background-color: gray;
+        border-radius: 10rem;
+        content: '';
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  @keyframes bg-skeleton {
+    to {
+      background-position: 40rem 0, 0 0;
+    }
+  }
 }

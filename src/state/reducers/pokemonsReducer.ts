@@ -4,6 +4,7 @@ import { PokemonModel, PokemonInfoModel } from "@models"
 
 type PokemonState = {
   pokemons: Array<PokemonModel>,
+  favorite: Array<PokemonModel>,
   pokemon: PokemonModel | null,
   info: PokemonInfoModel | null,
   page: number,
@@ -12,29 +13,75 @@ type PokemonState = {
   search: string,
 }
 
+const changeLocalStoragePage = (page: number) => {
+  localStorage.setItem('page', JSON.stringify(page))
+}
+
+const pageLS = JSON.parse(localStorage.getItem('page') ?? '1')
+
+const updateFavoriteLS = (favorite: Array<PokemonModel>) => {
+  localStorage.setItem('favorite', JSON.stringify(favorite))
+}
+
+const favoriteLS = JSON.parse(localStorage.getItem('favorite') ?? '[]')
+
 const initialState: PokemonState = {
   pokemons: [],
+  favorite: favoriteLS,
   pokemon: null,
   info: null,
-  page: 1,
-  loading: false,
+  page: pageLS,
+  loading: true,
   error: null,
   search: '',
 }
 
 export const pokemonsReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case ActionTypePokemon.SET_POKEMONS:
+    case ActionTypePokemon.SET_POKEMONS: {
+      const pokemons = action.payload.map((pokemon) => {
+        const isFavorite = state.favorite.some((favorite) => favorite.id === pokemon.id)
+        return {
+          ...pokemon,
+          isFavorite,
+        }
+      })
       return {
         ...state,
-        pokemons: action.payload,
-        loading: false,
+        pokemons,
       }
+    }
+    case ActionTypePokemon.SET_FAVORITE: {
+      const pokemons = state.pokemons.map((pokemon) => {
+        if (pokemon.id === action.payload.id) {
+          return {
+            ...pokemon,
+            isFavorite: !pokemon.isFavorite,
+          }
+        }
+        return pokemon
+      })
+      const isFavorite = state.favorite.some((favorite) => favorite.id === action.payload.id)
+      if (isFavorite) {
+        const favorite = state.favorite.filter((favorite) => favorite.id !== action.payload.id)
+        updateFavoriteLS(favorite)
+        return {
+          ...state,
+          favorite,
+          pokemons,
+        }
+      }
+      const favorite = [...state.favorite, action.payload]
+      updateFavoriteLS(favorite)
+      return {
+        ...state,
+        favorite,
+      }
+    }
     case ActionTypePokemon.SET_POKEMON:
       return {
         ...state,
         pokemon: action.payload,
-        loading: false,
       }
     case ActionTypePokemon.SET_INFO:
       return {
@@ -42,6 +89,7 @@ export const pokemonsReducer = (state = initialState, action: Action) => {
         info: action.payload,
       }
     case ActionTypePokemon.SET_PAGE:
+      changeLocalStoragePage(action.payload)
       return {
         ...state,
         page: action.payload,

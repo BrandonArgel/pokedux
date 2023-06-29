@@ -7,6 +7,11 @@ interface SetPokemonsAction {
   payload: Array<PokemonModel>
 }
 
+interface SetFavoriteAction {
+  type: ActionTypePokemon.SET_FAVORITE
+  payload: PokemonModel
+}
+
 interface SetPokemonAction {
   type: ActionTypePokemon.SET_POKEMON
   payload: PokemonModel
@@ -41,4 +46,4 @@ interface ToggleThemeAction {
   type: ActionTypeTheme.TOGGLE_THEME
 }
 
-export type Action = SetPokemonsAction | SetPokemonAction | SetInfoAction | SetPageAction | SetSearchAction | SetLoadingAction | SetErrorAction | ToggleThemeAction;
+export type Action = SetPokemonsAction | SetFavoriteAction | SetPokemonAction | SetInfoAction | SetPageAction | SetSearchAction | SetLoadingAction | SetErrorAction | ToggleThemeAction;

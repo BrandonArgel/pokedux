@@ -1,21 +1,26 @@
 import * as React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Pagination } from "antd";
 import { actionCreators, State } from "@state";
 import { PokemonList } from "@containers";
-import { Card } from "@components";
+import { Card, Pagination } from "@components";
 import { PokemonModel } from "@models";
 import { scrollTop } from "@utils";
 
 export const Home = () => {
 	const dispatch = useDispatch();
 	const { info, loading, page, pokemons } = useSelector((state: State) => state.pokemons);
-	const { getPokemons, setPage } = bindActionCreators(actionCreators, dispatch);
-	
+	const { setFavorite, getPokemons, setPage } = bindActionCreators(actionCreators, dispatch);
+
 	const handlePageChange = (page: number) => {
 		setPage(page);
 		scrollTop();
+	};
+
+	const handleFavorite = (e: React.MouseEvent<HTMLElement, MouseEvent>, pokemon: PokemonModel) => {
+		e.preventDefault();
+		e.stopPropagation();
+		setFavorite(pokemon);
 	};
 
 	React.useEffect(() => {
@@ -25,21 +30,20 @@ export const Home = () => {
 	return (
 		<div>
 			<PokemonList loading={loading}>
-				{pokemons.length &&
-					pokemons.map((pokemon: PokemonModel) => (
-						<Card key={pokemon.name} name={pokemon.name} image={pokemon.image} />
+				{pokemons.length > 0 &&
+					pokemons.map(({ id, name, image, types, isFavorite }: PokemonModel) => (
+						<Card
+							key={id}
+							id={id}
+							name={name}
+							image={image}
+							types={types}
+							isFavorite={isFavorite}
+							handleFavorite={handleFavorite}
+						/>
 					))}
 			</PokemonList>
-			<Pagination
-				current={page}
-				defaultCurrent={1}
-				defaultPageSize={20}
-				pageSize={20}
-				total={info?.count ?? 0}
-				onChange={handlePageChange}
-				showQuickJumper={false}
-				showSizeChanger={false}
-			/>
+			<Pagination page={page} total={info?.count ?? 0} onChange={handlePageChange} />
 		</div>
 	);
 };

@@ -67,6 +67,9 @@
       "services/*": [
         "./src/services/*"
       ],
+      "slices/*": [
+        "./src/slices/*"
+      ],
       "styles/*": [
         "./src/styles/*"
       ],

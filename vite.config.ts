@@ -17,6 +17,7 @@ const paths = [
   "routes",
   "reducers",
   "services",
+  "slices",
   "styles",
   "utils",
 ]

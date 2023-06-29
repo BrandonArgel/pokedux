@@ -1,5 +1,5 @@
-import { ConfigProvider } from "antd";
-import { Button, theme, Typography } from "antd";
+import { Button, ConfigProvider, theme, Typography } from "antd";
+import { Link } from "react-router-dom";
 import { Moon, Sun } from "@assets/icons";
 import styles from "./Header.module.scss";
 
@@ -29,14 +29,16 @@ export const Header: React.FC<Props> = ({ isDarkMode, toggleTheme }) => {
 				}}
 			>
 				<div className={styles.header__container}>
-					<Title
-						style={{
-							color: token.colorPrimary,
-							marginBottom: 0,
-						}}
-					>
-						Pokedux
-					</Title>
+					<Link to={"/"} className={styles.header__logo}>
+						<Title
+							style={{
+								color: token.colorPrimary,
+								marginBottom: 0,
+							}}
+						>
+							Pokedux
+						</Title>
+					</Link>
 					<Button
 						className={styles.header__button}
 						onClick={() => toggleTheme()}
