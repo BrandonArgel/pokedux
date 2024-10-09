@@ -1,8 +1,9 @@
-import { PokemonInfoModel, PokemonModel } from '@models';
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getPokemonsService } from '@services';
+import { PokemonInfoModel, PokemonModel, Pokemon } from "@models";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { getPokemonService, getPokemonsService } from "@services";
 
 export interface DataState {
+  pokemon: Pokemon | null;
   pokemons: Array<PokemonModel>;
   favorites: Array<PokemonModel>;
   info: PokemonInfoModel | null;
@@ -12,82 +13,121 @@ export interface DataState {
 }
 
 const changeLocalStoragePage = (page: number) => {
-  localStorage.setItem('page', JSON.stringify(page));
-}
+  localStorage.setItem("page", JSON.stringify(page));
+};
 
-const pageLS = JSON.parse(localStorage.getItem('page') ?? '1');
+const pageLS = JSON.parse(localStorage.getItem("page") ?? "1");
 
 const updateFavoriteLS = (favorite: Array<PokemonModel>) => {
-  localStorage.setItem('favorite', JSON.stringify(favorite));
-}
+  localStorage.setItem("favorite", JSON.stringify(favorite));
+};
 
-const favoriteLS = JSON.parse(localStorage.getItem('favorite') ?? '[]');
+const favoriteLS = JSON.parse(localStorage.getItem("favorite") ?? "[]");
 
 const initialState: DataState = {
+  pokemon: null,
   pokemons: [],
   favorites: favoriteLS,
   info: null,
   page: pageLS,
-  loading: true,
+  loading: false,
   error: null,
-}
+};
 
 export const fetchPokemons = createAsyncThunk<
   // Return type of the payload creator
   void,
   // First argument to the payload creator
   number
->(
-  'data/fetchPokemons',
-  async (page, { dispatch }) => {
-    dispatch(setLoading(true));
-    try {
-      const { info, pokemons } = await getPokemonsService(page);
-      dispatch(setPokemons(pokemons));
-      dispatch(setInfo(info));
-    } catch (error) {
-      let errorMessage = 'Error getting pokemons';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-      dispatch(setError(errorMessage));
-    } finally {
-      dispatch(setLoading(false));
+>("data/fetchPokemons", async (page, { dispatch }) => {
+  dispatch(setLoading(true));
+  try {
+    const { info, pokemons } = await getPokemonsService(page);
+    dispatch(setPokemons(pokemons));
+    dispatch(setInfo(info));
+  } catch (error) {
+    let errorMessage = "Error getting pokemons";
+    if (error instanceof Error) {
+      errorMessage = error.message;
     }
-  },
-)
+    dispatch(setError(errorMessage));
+  } finally {
+    dispatch(setLoading(false));
+  }
+});
+
+export const fetchPokemon = createAsyncThunk<
+  // Return type of the payload creator
+  void,
+  // First argument to the payload creator
+  string
+>("data/fetchPokemon", async (name, { dispatch }) => {
+  dispatch(setLoading(true));
+  try {
+    const pokemon = await getPokemonService(name);
+    dispatch(setPokemon(pokemon));
+  } catch (error) {
+    let errorMessage = "Error getting pokemons";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    dispatch(setError(errorMessage));
+  } finally {
+    dispatch(setLoading(false));
+  }
+});
 
 const dataSlice = createSlice({
-  name: 'data',
+  name: "data",
   initialState,
   reducers: {
     setPokemons: (state, action: PayloadAction<Array<PokemonModel>>) => {
       const pokemons = action.payload.map((pokemon) => {
-        const isFavorite = state.favorites.some((favorite) => favorite.id === pokemon.id)
+        const isFavorite = state.favorites.some(
+          (favorite) => favorite.id === pokemon.id
+        );
         return {
           ...pokemon,
           isFavorite,
-        }
-      })
+        };
+      });
       state.pokemons = pokemons;
     },
+    setPokemon: (state, action: PayloadAction<Pokemon>) => {
+      state.pokemon = action.payload;
+    },
     setFavorite: (state, action: PayloadAction<PokemonModel>) => {
-      const isFavorite = state.favorites.some((favorite) => favorite.id === action.payload.id)
+      const isFavorite = state.favorites.some(
+        (favorite) => favorite.id === action.payload.id
+      );
       if (isFavorite) {
-        const favorites = state.favorites.filter((favorite) => favorite.id !== action.payload.id)
-        updateFavoriteLS(favorites)
+        const favorites = state.favorites.filter(
+          (favorite) => favorite.id !== action.payload.id
+        );
+        updateFavoriteLS(favorites);
         state.favorites = favorites;
       } else {
-        const favorite = [...state.favorites, action.payload]
-        updateFavoriteLS(favorite)
+        const favorite = [...state.favorites, action.payload];
+        updateFavoriteLS(favorite);
         state.favorites = favorite;
       }
+
+      const pokemons = state.pokemons.map((pokemon) => {
+        if (pokemon.id === action.payload.id) {
+          return {
+            ...pokemon,
+            isFavorite: !pokemon.isFavorite,
+          };
+        }
+        return pokemon;
+      });
+      state.pokemons = pokemons;
     },
     setInfo: (state, action: PayloadAction<PokemonInfoModel>) => {
       state.info = action.payload;
     },
     setPage: (state, action: PayloadAction<number>) => {
-      changeLocalStoragePage(action.payload)
+      changeLocalStoragePage(action.payload);
       state.page = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -95,11 +135,12 @@ const dataSlice = createSlice({
     },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
 export const {
+  setPokemon,
   setPokemons,
   setFavorite,
   setInfo,
