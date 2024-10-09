@@ -9,7 +9,9 @@ export interface DataState {
   info: PokemonInfoModel | null;
   page: number;
   loading: boolean;
+  loadingPokemon: boolean;
   error: string | null;
+  errorPokemon: string | null;
 }
 
 const changeLocalStoragePage = (page: number) => {
@@ -31,7 +33,9 @@ const initialState: DataState = {
   info: null,
   page: pageLS,
   loading: false,
+  loadingPokemon: false,
   error: null,
+  errorPokemon: null,
 };
 
 export const fetchPokemons = createAsyncThunk<
@@ -56,26 +60,24 @@ export const fetchPokemons = createAsyncThunk<
   }
 });
 
-export const fetchPokemon = createAsyncThunk<
-  // Return type of the payload creator
-  void,
-  // First argument to the payload creator
-  string
->("data/fetchPokemon", async (name, { dispatch }) => {
-  dispatch(setLoading(true));
-  try {
-    const pokemon = await getPokemonService(name);
-    dispatch(setPokemon(pokemon));
-  } catch (error) {
-    let errorMessage = "Error getting pokemons";
-    if (error instanceof Error) {
-      errorMessage = error.message;
+export const fetchPokemon = createAsyncThunk<void, string>(
+  "data/fetchPokemon",
+  async (name, { dispatch }) => {
+    dispatch(setLoadingPokemon(true));
+    try {
+      const pokemon = await getPokemonService(name);
+      dispatch(setPokemon(pokemon));
+    } catch (error) {
+      let errorMessage = "Error getting pokemons";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      dispatch(setErrorPokemon(errorMessage));
+    } finally {
+      dispatch(setLoadingPokemon(false));
     }
-    dispatch(setError(errorMessage));
-  } finally {
-    dispatch(setLoading(false));
   }
-});
+);
 
 const dataSlice = createSlice({
   name: "data",
@@ -133,8 +135,15 @@ const dataSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    setLoadingPokemon: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
+    },
+    setErrorPokemon: (state, action: PayloadAction<string | null>) => {
+      state.errorPokemon = action.payload;
     },
   },
 });
@@ -146,7 +155,9 @@ export const {
   setInfo,
   setPage,
   setLoading,
+  setLoadingPokemon,
   setError,
+  setErrorPokemon,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

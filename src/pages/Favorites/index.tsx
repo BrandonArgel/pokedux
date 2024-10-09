@@ -58,14 +58,14 @@ export const Favorites = () => {
         {favorites.length > 0 &&
           favorites
             .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
-            .map(({ id, name, image, types, isFavorite }: PokemonModel) => (
+            .map(({ id, name, image, types }: PokemonModel) => (
               <Card
                 key={id}
                 id={id}
                 name={name}
                 image={image}
                 types={types}
-                isFavorite={isFavorite}
+                isFavorite={true}
                 handleFavorite={handleFavorite}
               />
             ))}

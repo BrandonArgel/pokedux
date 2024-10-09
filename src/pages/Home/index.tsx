@@ -9,14 +9,14 @@ import { scrollTop } from "@utils";
 
 export const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { info, loading, page, pokemons } = useSelector(
+  const { error, info, loading, page, pokemons } = useSelector(
     (state: RootState) => state.data,
     shallowEqual
   );
 
   const handlePageChange = (_page: number) => {
     dispatch(setPage(_page));
-		dispatch(fetchPokemons(_page));
+    dispatch(fetchPokemons(_page));
     scrollTop();
   };
 
@@ -31,12 +31,16 @@ export const Home = () => {
 
   React.useEffect(() => {
     const initialRequest = () => {
-			if(pokemons.length !== 0) return; 
+      if (pokemons.length !== 0) return;
       dispatch(fetchPokemons(page));
     };
 
     initialRequest();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>

@@ -2,9 +2,14 @@ import { URL_API_BASE } from "@utils";
 import pokemonNotFound from "@assets/images/pokemonNotFound.png";
 
 export const getPokemonService = async (_name: string) => {
-  const pokemon = await fetch(`${URL_API_BASE}pokemon/${_name}`).then(
-    (response) => response.json()
-  );
+  const pokemon = await fetch(`${URL_API_BASE}pokemon/${_name}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      // Regex to return only the text inside "" from the error message
+      const _err = error.message.match(/"([^"]+)"/)?.[1] ?? error.message;
+
+      throw new Error(`Error getting pokemons: ${_err}`);
+    });
 
   const {
     abilities,

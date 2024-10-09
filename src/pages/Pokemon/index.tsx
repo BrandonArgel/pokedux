@@ -9,7 +9,7 @@ export const Pokemon = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { name } = useParams<{ name: string }>();
-  const { pokemon } = useSelector(
+  const { errorPokemon, loadingPokemon, pokemon } = useSelector(
     (state: RootState) => state.data,
     shallowEqual
   );
@@ -20,24 +20,29 @@ export const Pokemon = () => {
 
   React.useEffect(() => {
     const initialRequest = () => {
-      try {
-        dispatch(fetchPokemon(String(name)));
-      } catch (error) {
-        console.error(error);
-      }
+      dispatch(fetchPokemon(String(name)));
     };
 
     initialRequest();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch, name]);
 
-  if (pokemon === null) {
-    navigate("/");
-    return null;
+  React.useEffect(() => {
+    if (!loadingPokemon && pokemon === undefined) {
+      navigate("/");
+    }
+  }, [loadingPokemon, pokemon, navigate]);
+
+  if (loadingPokemon) {
+    return <div>Loading...</div>;
+  }
+
+  if (errorPokemon) {
+    return <div>{errorPokemon}</div>;
   }
 
   return (
     <>
-      <img src={image} alt={pokemon.name} />
+      <img src={image} alt={pokemon?.name} />
       {types?.map((type) => (
         <Badge
           key={type}

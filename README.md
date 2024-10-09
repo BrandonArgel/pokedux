@@ -5,4 +5,5 @@ A simple Pokedex app built with React and Redux using the [PokeAPI](https://poke
 - Add page for each Pokemon with more details.
 - Add search functionality.
 - Add suspense loader for React.
-- Set filled star on favorites page
+- 404 page
+- Skeleton loader for pakemon page
