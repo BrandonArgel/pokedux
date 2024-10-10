@@ -72,7 +72,7 @@ export const Pokemon = () => {
   const { types: prevTypes = ["normal", "flying"] } = pokemon?.prev || {};
   const { types: nextTypes = ["normal", "flying"] } = pokemon?.next || {};
 
-  const { background, color } = cardColors(types, 50);
+  const { color } = cardColors(types, 50);
   const { background: prevBackground, color: prevColor } = cardColors(
     prevTypes,
     50
@@ -81,8 +81,6 @@ export const Pokemon = () => {
     nextTypes,
     50
   );
-
-  console.log({ background, color });
 
   const handleFavorite = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -179,8 +177,6 @@ export const Pokemon = () => {
         {pokemon?.stats && (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              width={500}
-              height={200}
               data={pokemon?.stats}
               margin={{
                 top: 5,
