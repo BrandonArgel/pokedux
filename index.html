@@ -5,9 +5,28 @@
     <link rel="icon" type="image/svg+xml" href="/pokeball.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemdux</title>
+    <style>
+      body {
+        
+      }
+
+      .dark-mode {
+        background-color: #201a30;
+        color: #ebebeb;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <script>
+      // get local storage item isDarkMode
+      const isDarkMode = localStorage.getItem("isDarkMode");
+      // if isDarkMode is true, add dark-mode class to body
+      if (isDarkMode === "true") {
+        document.body.classList.add("dark-mode");
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

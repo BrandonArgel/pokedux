@@ -9,7 +9,7 @@ type PokeballProps = {
 };
 
 export const Pokeball = ({
-  primary = "red",
+  primary = "#b468b7",
   secondary = "white",
   border = "black",
 }: PokeballProps) => (

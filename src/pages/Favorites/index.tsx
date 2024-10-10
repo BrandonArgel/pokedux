@@ -12,7 +12,7 @@ const { Title } = Typography;
 
 export const Favorites = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, favorites } = useSelector(
+  const { favorites } = useSelector(
     (state: RootState) => state.data,
     shallowEqual
   );
@@ -54,7 +54,7 @@ export const Favorites = () => {
           value={search}
         />
       )}
-      <PokemonList loading={loading}>
+      <PokemonList loading={false}>
         {favorites.length > 0 &&
           favorites
             .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
