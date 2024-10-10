@@ -14,10 +14,11 @@ import {
 } from "recharts";
 import { AppDispatch, RootState, fetchPokemon } from "@slices";
 import { setFavorite } from "@slices/pokemonsSlice";
-import { Card } from "@components";
+import { Card, Loader } from "@components";
 import { PokemonCardModel } from "@models";
 import { capitalize, cardColors, formatter } from "@utils";
 import styles from "./Pokemon.module.scss";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 
 interface DataType {
   key: React.Key;
@@ -107,7 +108,7 @@ export const Pokemon = () => {
   }, [loadingPokemon, pokemon, navigate]);
 
   if (loadingPokemon) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (errorPokemon) {
@@ -136,6 +137,8 @@ export const Pokemon = () => {
             background: prevBackground,
             color: prevColor,
           }}
+          icon={<ArrowLeftOutlined />}
+          iconPosition="start"
         >
           {`${pokemon?.prev?.id}.° ${capitalize(String(pokemon?.prev?.name))}`}
         </Button>
@@ -144,10 +147,12 @@ export const Pokemon = () => {
           type="primary"
           onClick={() => navigate(`/pokemon/${pokemon?.next?.name}`)}
           disabled={loadingPokemon}
+          icon={<ArrowRightOutlined />}
           style={{
             background: nextBackground,
             color: nextColor,
           }}
+          iconPosition="end"
         >
           {`${pokemon?.next?.id}.° ${capitalize(String(pokemon?.next?.name))}`}
         </Button>
