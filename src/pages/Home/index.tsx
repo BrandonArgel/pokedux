@@ -3,8 +3,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, fetchPokemons } from "@slices";
 import { setFavorite, setPage } from "@slices/pokemonsSlice";
 import { PokemonList } from "@containers";
-import { Card, Pagination } from "@components";
-import { PokemonModel } from "@models";
+import { GridCard, Pagination } from "@components";
+import { PokemonCardModel } from "@models";
 import { scrollTop } from "@utils";
 
 export const Home = () => {
@@ -22,7 +22,7 @@ export const Home = () => {
 
   const handleFavorite = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
-    pokemon: PokemonModel
+    pokemon: PokemonCardModel
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -47,8 +47,8 @@ export const Home = () => {
       <PokemonList loading={loading}>
         {pokemons.length > 0 &&
           pokemons.map(
-            ({ id, name, image, types, isFavorite }: PokemonModel) => (
-              <Card
+            ({ id, name, image, types, isFavorite }: PokemonCardModel) => (
+              <GridCard
                 key={id}
                 id={id}
                 name={name}

@@ -1,63 +1,315 @@
-.header {
-  height: 7rem;
-  padding: 1rem 2rem;
-  width: 100%;
+// .header {
+//   height: 7rem;
+//   padding: 1rem 2rem;
+//   width: 100%;
 
-  &__container {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    max-width: 120rem;
-    width: 100%;
-  }
+//   &__container {
+//     align-items: center;
+//     display: flex;
+//     justify-content: space-between;
+//     margin: 0 auto;
+//     max-width: 120rem;
+//     width: 100%;
+//   }
+
+//   &__nav {
+//     display: flex;
+//     column-gap: 2rem;
+//     align-items: center;
+//   }
+
+//   &__list {
+//     display: flex;
+//     column-gap: 2rem;
+//     list-style: none;
+//   }
+
+//   &__item {
+//     font-size: 1.6rem;
+//     font-weight: bold;
+//   }
+
+//   &__link {
+//     text-decoration: none;
+//   }
+// }
+
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 7rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 2;
 
   &__logo {
-    align-items: center;
-    display: flex;
+    align-items: flex-end;
     column-gap: 1rem;
+    display: flex;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: bold;
+    user-select: none;
     justify-content: center;
     text-decoration: none;
+    transition: filter 0.2s ease-in-out;
+    white-space: nowrap;
 
     svg {
       height: 3rem;
       width: 3rem;
     }
+
+    &:hover,
+    &:active,
+    &:focus {
+      filter: brightness(1.1);
+    }
+
+    img {
+      height: clamp(3rem, 6vw, 4.5rem);
+      margin-right: 1rem;
+    }
+  }
+
+  &__hamburger {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    min-width: 3.2rem;
+    position: relative;
+    z-index: 11;
+
+    line {
+      stroke-width: 10%;
+      stroke-linecap: round;
+      transition: stroke 0.3s ease-in-out;
+    }
+
+    &_top {
+      animation: top-off 0.5s;
+      -webkit-animation-fill-mode: forwards;
+      -moz-animation-fill-mode: forwards;
+      -o-animation-fill-mode: forwards;
+      -ms-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+    }
+
+    &_middle {
+      animation: middle-off 0.5s;
+      -webkit-animation-fill-mode: forwards;
+      -moz-animation-fill-mode: forwards;
+      -o-animation-fill-mode: forwards;
+      -ms-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+    }
+
+    &_bottom {
+      animation: bottom-off 0.5s;
+      -webkit-animation-fill-mode: forwards;
+      -moz-animation-fill-mode: forwards;
+      -o-animation-fill-mode: forwards;
+      -ms-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+    }
+
+    &_active {
+      .header__hamburger_top {
+        animation: top-on 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        -moz-animation-fill-mode: forwards;
+        -o-animation-fill-mode: forwards;
+        -ms-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+      }
+
+      .header__hamburger_middle {
+        animation: middle-on 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        -moz-animation-fill-mode: forwards;
+        -o-animation-fill-mode: forwards;
+        -ms-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+      }
+
+      .header__hamburger_bottom {
+        animation: bottom-on 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        -moz-animation-fill-mode: forwards;
+        -o-animation-fill-mode: forwards;
+        -ms-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+      }
+    }
+
+    @keyframes top-on {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: translate(25%, 0%) rotate(45deg);
+      }
+    }
+
+    @keyframes middle-on {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: translate(-25%, 50%) rotate(-45deg);
+      }
+    }
+
+    @keyframes bottom-on {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(45deg) translate(16%, -76%);
+      }
+    }
+
+    @keyframes top-off {
+      from {
+        transform: translate(25%, 0%) rotate(45deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes middle-off {
+      from {
+        transform: translate(-25%, 50%) rotate(-45deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes bottom-off {
+      from {
+        transform: rotate(45deg) translate(16%, -76%);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+  }
+
+  &__menu {
+    box-shadow: 0px 0px 10px #000000;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    max-width: 25rem;
+    padding: 2rem;
+    position: fixed;
+    right: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    top: 0;
+    visibility: hidden;
+    width: 80vw;
+    will-change: transform, visibility;
+    z-index: 10;
+
+    &_open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    &_list {
+      flex-flow: column nowrap;
+    }
+  }
+
+  &__backdrop {
+    background-color: rgba(3, 9, 30, 0.6);
+    border: none;
+    display: block;
+    backdrop-filter: blur(2px);
+    left: 0;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+  }
+
+  ul {
+    align-items: center;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 1rem;
   }
 
   &__nav {
-    display: flex;
-    column-gap: 2rem;
-    align-items: center;
+    display: none;
   }
 
-  &__list {
-    display: flex;
-    column-gap: 2rem;
-    list-style: none;
+  li {
+    a {
+      text-decoration: none;
+      position: relative;
+
+      &:hover,
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      align-items: center;
+      border: none;
+      display: flex;
+      height: 4rem;
+      justify-content: center;
+      padding: 0;
+      width: 4rem;
+      outline: none;
+
+      svg {
+        height: 2.5rem;
+        width: 2.5rem;
+      }
+    }
   }
+}
 
-  &__item {
-    font-size: 1.6rem;
-    font-weight: bold;
-  }
+@media (min-width: 768px) {
+  .header {
+    &__hamburger,
+    &__menu {
+      display: none;
+    }
 
-  &__link {
-    text-decoration: none;
-  }
+    &__nav {
+      &:not(.mobile) {
+        display: initial;
+      }
 
-  &__button {
-    align-items: center;
-    border: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    height: 4rem;
-    width: 4rem;
+      &__list {
+        align-items: center;
+        display: flex;
+        justify-content: center;
 
-    svg {
-      height: 2.5rem;
-      width: 2.5rem;
+        li {
+          margin: 0 1rem;
+        }
+      }
     }
   }
 }

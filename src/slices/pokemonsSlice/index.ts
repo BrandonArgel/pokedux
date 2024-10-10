@@ -1,11 +1,13 @@
-import { PokemonInfoModel, PokemonModel, Pokemon } from "@models";
+import { PokemonInfoModel, PokemonModel, PokemonCardModel } from "@models";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getPokemonService, getPokemonsService } from "@services";
+import { capitalize } from "@utils/capitalize";
+import { showErrorMessage, showSuccessMessage } from "@utils/showMessage";
 
 export interface DataState {
-  pokemon: Pokemon | null;
-  pokemons: Array<PokemonModel>;
-  favorites: Array<PokemonModel>;
+  pokemon: PokemonModel | null;
+  pokemons: Array<PokemonCardModel>;
+  favorites: Array<PokemonCardModel>;
   info: PokemonInfoModel | null;
   page: number;
   loading: boolean;
@@ -20,7 +22,7 @@ const changeLocalStoragePage = (page: number) => {
 
 const pageLS = JSON.parse(localStorage.getItem("page") ?? "1");
 
-const updateFavoriteLS = (favorite: Array<PokemonModel>) => {
+const updateFavoriteLS = (favorite: Array<PokemonCardModel>) => {
   localStorage.setItem("favorite", JSON.stringify(favorite));
 };
 
@@ -32,8 +34,8 @@ const initialState: DataState = {
   favorites: favoriteLS,
   info: null,
   page: pageLS,
-  loading: false,
-  loadingPokemon: false,
+  loading: true,
+  loadingPokemon: true,
   error: null,
   errorPokemon: null,
 };
@@ -44,6 +46,7 @@ export const fetchPokemons = createAsyncThunk<
   // First argument to the payload creator
   number
 >("data/fetchPokemons", async (page, { dispatch }) => {
+  dispatch(setError(null));
   dispatch(setLoading(true));
   try {
     const { info, pokemons } = await getPokemonsService(page);
@@ -63,6 +66,7 @@ export const fetchPokemons = createAsyncThunk<
 export const fetchPokemon = createAsyncThunk<void, string>(
   "data/fetchPokemon",
   async (name, { dispatch }) => {
+    dispatch(setErrorPokemon(null));
     dispatch(setLoadingPokemon(true));
     try {
       const pokemon = await getPokemonService(name);
@@ -83,7 +87,7 @@ const dataSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
-    setPokemons: (state, action: PayloadAction<Array<PokemonModel>>) => {
+    setPokemons: (state, action: PayloadAction<Array<PokemonCardModel>>) => {
       const pokemons = action.payload.map((pokemon) => {
         const isFavorite = state.favorites.some(
           (favorite) => favorite.id === pokemon.id
@@ -95,10 +99,17 @@ const dataSlice = createSlice({
       });
       state.pokemons = pokemons;
     },
-    setPokemon: (state, action: PayloadAction<Pokemon>) => {
-      state.pokemon = action.payload;
+    setPokemon: (state, action: PayloadAction<PokemonModel>) => {
+      const isFavorite = state.favorites.some(
+        (favorite) => favorite.id === action.payload.id
+      );
+      state.pokemon = {
+        ...action.payload,
+        isFavorite,
+      };
     },
-    setFavorite: (state, action: PayloadAction<PokemonModel>) => {
+    setFavorite: (state, action: PayloadAction<PokemonCardModel>) => {
+      const { id, name } = action.payload;
       const isFavorite = state.favorites.some(
         (favorite) => favorite.id === action.payload.id
       );
@@ -124,6 +135,13 @@ const dataSlice = createSlice({
         return pokemon;
       });
       state.pokemons = pokemons;
+      state.pokemon !== null && (state.pokemon.isFavorite = !isFavorite);
+
+      showSuccessMessage({
+        title: `Pokemon #${id}: ${capitalize(name)} ${
+          isFavorite ? "removed from" : "added to"
+        } favorites`,
+      });
     },
     setInfo: (state, action: PayloadAction<PokemonInfoModel>) => {
       state.info = action.payload;
@@ -136,14 +154,22 @@ const dataSlice = createSlice({
       state.loading = action.payload;
     },
     setLoadingPokemon: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+      state.loadingPokemon = action.payload;
     },
 
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
+
+      if (action.payload) {
+        showErrorMessage({ title: action.payload });
+      }
     },
     setErrorPokemon: (state, action: PayloadAction<string | null>) => {
       state.errorPokemon = action.payload;
+
+      if (action.payload) {
+        showErrorMessage({ title: action.payload });
+      }
     },
   },
 });

@@ -1,6 +1,6 @@
 import { PokemonIcon } from "@components";
 
-export const pokemonTypesColors = {
+export const pokemonTypeColors = {
 	bug: { color: "#94BC4A", icon: <PokemonIcon letter="b" /> },
 	ice: { color: "#70CBD4", icon: <PokemonIcon letter="i" /> },
 	dark: { color: "#736C75", icon: <PokemonIcon letter="d" /> },

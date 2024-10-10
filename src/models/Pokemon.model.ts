@@ -9,7 +9,7 @@ export interface PokemonBaseModel {
   url: string;
 }
 
-export interface PokemonModel {
+export interface PokemonCardModel {
   id: number;
   image: string;
   name: string;
@@ -17,7 +17,13 @@ export interface PokemonModel {
   isFavorite: boolean;
 }
 
-export interface Pokemon extends Omit<PokemonModel, "isFavorite"> {
+export type PokemonLinkModel = {
+  name: string;
+  id: number;
+  types: Array<string>;
+};
+
+export interface PokemonModel extends PokemonCardModel {
   stats: Array<{
     name: string;
     value: number;
@@ -27,4 +33,6 @@ export interface Pokemon extends Omit<PokemonModel, "isFavorite"> {
   weight: number;
   height: number;
   base_experience: number;
+  prev: PokemonLinkModel | null;
+  next: PokemonLinkModel | null;
 }

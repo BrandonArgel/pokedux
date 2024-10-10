@@ -1,6 +1,6 @@
 export { PokemonIcon } from './PokemonIcon'
 export { Badge } from './Badge'
-export { Card } from './Card'
+export { Card, GridCard } from './Card'
 export { Footer } from './Footer'
 export { Header } from './Header'
 export { Logo } from './Logo'

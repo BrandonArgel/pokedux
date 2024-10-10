@@ -1,4 +1,4 @@
-.card {
+.gridCard {
   border: 1px solid transparent;
   transition: all 0.1s ease-in-out;
   user-select: none;
@@ -34,7 +34,7 @@
   &__bg {
     border-radius: 50%;
     border: 1px solid transparent;
-    transform: scale(0.80) translate(-62%, -50%);
+    transform: scale(0.8) translate(-62%, -50%);
     position: absolute;
     width: 80%;
     height: 100%;
@@ -72,6 +72,85 @@
     text-align: center;
   }
 
+  &__badges {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+}
+
+.card {
+  border: 1px solid transparent;
+  transition: all 0.1s ease-in-out;
+  user-select: none;
+
+  &:hover {
+    border-color: currentColor;
+
+    .card__bg {
+      border-color: currentColor;
+    }
+
+    .card__badges p {
+      border-color: currentColor;
+    }
+  }
+
+  [class="ant-card-body"] {
+    padding: 0;
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__bg {
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transform: scale(0.8) translate(-62%, -50%);
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+  }
+
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    height: auto !important;
+
+    img {
+      height: auto !important;
+      max-width: 80%;
+      max-height: 80%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    padding: 1rem;
+  }
+
+  &__header {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__content {
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-align: center;
+  }
 
   &__badges {
     align-items: center;

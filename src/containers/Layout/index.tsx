@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
 import { ConfigProvider } from "antd";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "@slices/uiSlice";
@@ -41,6 +42,15 @@ export const Layout = () => {
 
   return (
     <ConfigProvider theme={currentTheme}>
+      <Toaster
+        richColors
+        theme={isDarkMode ? "dark" : "light"}
+        toastOptions={{
+          style: {
+            padding: "1rem 1.5rem",
+          },
+        }}
+      />
       <div
         className={styles.root}
         style={{
@@ -49,7 +59,7 @@ export const Layout = () => {
       >
         <Header isDarkMode={isDarkMode} toggleTheme={handleToggleTheme} />
         <main
-					className={styles.main}
+          className={styles.main}
           style={{
             color: currentTheme.token.colorText,
           }}

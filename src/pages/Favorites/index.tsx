@@ -4,8 +4,8 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@slices";
 import { setFavorite } from "@slices/pokemonsSlice";
 import { PokemonList } from "@containers";
-import { Card } from "@components";
-import { PokemonModel } from "@models";
+import { GridCard } from "@components";
+import { PokemonCardModel } from "@models";
 import styles from "./Favorites.module.scss";
 
 const { Title } = Typography;
@@ -25,7 +25,7 @@ export const Favorites = () => {
 
   const handleFavorite = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
-    pokemon: PokemonModel
+    pokemon: PokemonCardModel
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -58,8 +58,8 @@ export const Favorites = () => {
         {favorites.length > 0 &&
           favorites
             .filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
-            .map(({ id, name, image, types }: PokemonModel) => (
-              <Card
+            .map(({ id, name, image, types }: PokemonCardModel) => (
+              <GridCard
                 key={id}
                 id={id}
                 name={name}
