@@ -2,6 +2,7 @@ import { pokemonTypeColors } from "@utils";
 
 export const cardColors = (pokemonTypes: string[], percentage: number) => {
   let background = "";
+  if (pokemonTypes.length === 0) pokemonTypes = ["normal"];
   if (pokemonTypes.length > 1) {
     background = `linear-gradient(0deg, ${pokemonTypes
       .map(
